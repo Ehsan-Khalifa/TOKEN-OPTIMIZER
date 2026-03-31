@@ -1,0 +1,25 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy project files
+COPY . .
+
+# Install Python dependencies including dev
+RUN pip install --upgrade pip && \
+    pip install -e ".[all]" 2>/dev/null || pip install -e "." && \
+    pip install pytest pytest-cov black ruff isort 2>/dev/null || true
+
+# Set up development environment
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+
+# Default to bash shell
+CMD ["/bin/bash"]

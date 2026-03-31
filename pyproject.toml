@@ -1,0 +1,131 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "token-optimizer"
+version = "0.1.0"
+description = "Advanced token optimization middleware for LLM API calls"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [
+    {name = "Ehsan Khalifa", email = "ehsan@example.com"}
+]
+keywords = ["llm", "tokens", "optimization", "prompt-engineering", "api"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "tiktoken>=0.5.0",
+    "httpx>=0.25.0",
+    "pydantic>=2.0.0",
+]
+
+[project.optional-dependencies]
+deepl = ["deepl>=1.16.0"]
+llmlingua = ["llmlingua>=0.2.0"]
+openai = ["openai>=1.0.0"]
+anthropic = ["anthropic>=0.18.0"]
+all = [
+    "deepl>=1.16.0",
+    "llmlingua>=0.2.0",
+    "openai>=1.0.0",
+    "anthropic>=0.18.0",
+]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "isort>=5.0.0",
+    "mypy>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Ehsan-Khalifa/TOKEN-OPTIMIZER"
+Documentation = "https://github.com/Ehsan-Khalifa/TOKEN-OPTIMIZER#readme"
+Repository = "https://github.com/Ehsan-Khalifa/TOKEN-OPTIMIZER.git"
+Issues = "https://github.com/Ehsan-Khalifa/TOKEN-OPTIMIZER/issues"
+
+[tool.setuptools]
+packages = ["src"]
+
+[tool.black]
+line-length = 100
+target-version = ['py39', 'py310', 'py311', 'py312']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 100
+skip_gitignore = true
+known_first_party = ["src"]
+
+[tool.ruff]
+line-length = 100
+select = ["E", "F", "W"]
+ignore = ["E501"]
+exclude = [
+    ".git",
+    "__pycache__",
+    ".venv",
+    "build",
+    "dist",
+]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+check_untyped_defs = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v --tb=short"
+markers = [
+    "slow: marks tests as slow",
+    "integration: marks tests as integration tests",
+    "benchmark: marks tests as benchmarks",
+    "requires_api: marks tests that require real API keys",
+]
+
+[tool.coverage.run]
+source = ["src"]
+omit = [
+    "*/site-packages/*",
+    "*/distutils/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]

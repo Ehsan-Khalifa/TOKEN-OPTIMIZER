@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: token-optimizer
+    environment:
+      - PYTHONUNBUFFERED=1
+      - DEEPL_API_KEY=${DEEPL_API_KEY:-test-key}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-test-key}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-test-key}
+    volumes:
+      - .:/app
+    command: python -m pytest tests/ -v
+
+  dev:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.dev
+    container_name: token-optimizer-dev
+    environment:
+      - PYTHONUNBUFFERED=1
+      - DEEPL_API_KEY=${DEEPL_API_KEY:-test-key}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-test-key}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-test-key}
+    volumes:
+      - .:/app
+    working_dir: /app
+    stdin_open: true
+    tty: true
+    command: /bin/bash

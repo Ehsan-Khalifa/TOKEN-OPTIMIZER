@@ -1,0 +1,3 @@
+"""
+Initialize benchmarks test package
+"""
